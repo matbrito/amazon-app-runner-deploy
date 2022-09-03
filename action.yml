@@ -13,6 +13,12 @@ inputs:
   access-role-arn:
     description: 'ARN for IAM Role, if the App Runner service is configured with ECR image'
     required: false
+  egress-type:
+    description: 'Application egress type, note: only supports the following values: VPC | DEFAULT'
+    required: false
+  vpc-connector-arn:
+    description: 'ARN for VPC Connector, if the App Runner service is configured with VPC egress type'
+    required: false
   repo:
     description: "GitHub source repository URL"
     required: false

@@ -58,6 +58,8 @@ export async function run(): Promise<void> {
     const serviceName = getInput('service', { required: true });
     const sourceConnectionArn = getInput('source-connection-arn', { required: false });
     const accessRoleArn = getInput('access-role-arn', { required: false });
+    const vpcConnectorArn = getInput('vpc-connector-arn', { required: false }) || "";
+    const egressType = getInput('egress-type', { required: false }) || "DEFAULT";
     const repoUrl = getInput('repo', { required: false });
     const imageUri = getInput('image', { required: false });
     const runtime = getInput('runtime', { required: false });
@@ -124,6 +126,12 @@ export async function run(): Promise<void> {
         if (!serviceArn) {
             info(`Creating service ${serviceName}`);
             const command = new CreateServiceCommand({
+                NetworkConfiguration: {
+                    EgressConfiguration: {
+                        EgressType: egressType,
+                        VpcConnectorArn: vpcConnectorArn
+                    }
+                },
                 ServiceName: serviceName,
                 InstanceConfiguration: {
                     Cpu: `${cpu} vCPU`,
